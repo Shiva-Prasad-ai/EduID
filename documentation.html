@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EduID Technical Documentation</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    @page {
+      size: A4 portrait;
+      margin: 16mm 14mm 16mm 14mm;
+      @bottom-right {
+        content: counter(page);
+        font-family: 'Inter', sans-serif;
+        font-size: 9pt;
+        color: #94a3b8;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #1e293b;
+      background-color: #ffffff;
+      line-height: 1.6;
+      font-size: 10pt;
+      margin: 0;
+      padding: 0;
+    }
+
+    .cover {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0d9488 100%);
+      color: #ffffff;
+      padding: 42px 36px;
+      border-radius: 18px;
+      margin-bottom: 28px;
+      page-break-after: avoid;
+    }
+
+    .cover-badge {
+      display: inline-block;
+      background: rgba(46, 196, 166, 0.2);
+      color: #5eead4;
+      border: 1px solid rgba(46, 196, 166, 0.4);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 8.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 14px;
+    }
+
+    .cover h1 {
+      font-size: 26pt;
+      font-weight: 800;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .cover-subtitle {
+      font-size: 12pt;
+      color: #cbd5e1;
+      margin: 0 0 20px 0;
+      font-weight: 400;
+    }
+
+    .cover-meta {
+      display: flex;
+      gap: 24px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      font-size: 8.5pt;
+      color: #94a3b8;
+    }
+
+    .cover-meta strong {
+      color: #ffffff;
+    }
+
+    h2 {
+      font-size: 15pt;
+      font-weight: 800;
+      color: #0f172a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 6px;
+      margin-top: 28px;
+      margin-bottom: 14px;
+      letter-spacing: -0.3px;
+      page-break-after: avoid;
+    }
+
+    h3 {
+      font-size: 11.5pt;
+      font-weight: 700;
+      color: #0d9488;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      page-break-after: avoid;
+    }
+
+    p {
+      margin: 0 0 10px 0;
+      color: #334155;
+    }
+
+    .table-container {
+      margin: 14px 0 18px 0;
+      page-break-inside: avoid;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8.5pt;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+      padding: 9px 12px;
+      border: 1px solid #cbd5e1;
+      text-transform: uppercase;
+      font-size: 7.5pt;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      padding: 8px 12px;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    .badge-card {
+      background-color: #f0fdfa;
+      border: 1px solid #ccfbf1;
+      border-left: 4px solid #0d9488;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin: 14px 0;
+      page-break-inside: avoid;
+    }
+
+    .badge-card strong {
+      color: #0f766e;
+    }
+
+    .code-block {
+      background-color: #0f172a;
+      color: #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin: 12px 0 18px 0;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 7.8pt;
+      line-height: 1.45;
+      overflow-x: hidden;
+      page-break-inside: avoid;
+      border: 1px solid #1e293b;
+    }
+
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      color: #94a3b8;
+      font-size: 7pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #334155;
+    }
+
+    .keyword { color: #f43f5e; font-weight: 600; }
+    .fn { color: #38bdf8; }
+    .str { color: #34d399; }
+    .comment { color: #64748b; font-style: italic; }
+    .num { color: #fbbf24; }
+
+    .id-diagram {
+      display: flex;
+      gap: 10px;
+      margin: 16px 0;
+      page-break-inside: avoid;
+    }
+
+    .id-box {
+      flex: 1;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .id-box.active {
+      border-color: #0d9488;
+      background: #f0fdfa;
+    }
+
+    .id-part {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      font-size: 13pt;
+      color: #0d9488;
+      margin-bottom: 3px;
+    }
+
+    .id-label {
+      font-size: 7pt;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    .footer-note {
+      margin-top: 32px;
+      padding-top: 14px;
+      border-top: 1px solid #e2e8f0;
+      text-align: center;
+      font-size: 8pt;
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- COVER SECTION -->
+  <div class="cover">
+    <div class="cover-badge">Official Architecture Specification</div>
+    <h1>EduID Documentation</h1>
+    <p class="cover-subtitle">Unified Student Digital Identity & Academic Credential Verification System</p>
+    <div class="cover-meta">
+      <div><strong>Repository:</strong> Shiva-Prasad-ai/EduID</div>
+      <div><strong>Version:</strong> 1.0.0 Enterprise</div>
+      <div><strong>Security:</strong> Zero-Secrets Client Architecture</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: EXECUTIVE SUMMARY -->
+  <h2>1. Executive Summary & Core Vision</h2>
+  <p>
+    <strong>EduID</strong> is an enterprise-grade digital identity platform created to modernize student credential management, academic history tracking, extracurricular verification, and AI-assisted career advisory into a secure, tamper-proof, verified digital registry.
+  </p>
+
+  <div class="badge-card">
+    <strong>Key Architectural Innovation:</strong> The platform enforces a <em>Zero-Secrets Frontend Architecture</em>. MongoDB connection strings, OpenRouter LLM credentials, and user password hashes reside exclusively on the server. Browser DevTools Inspect reveals no sensitive keys.
+  </div>
+
+  <!-- SECTION 2: IDENTITY SPECIFICATION -->
+  <h2>2. The EduID Specification Standard</h2>
+  <p>
+    Every registered student receives a deterministic, collision-free identity string formatted systematically:
+  </p>
+
+  <div class="id-diagram">
+    <div class="id-box active">
+      <div class="id-part">EU</div>
+      <div class="id-label">Namespace (EduID)</div>
+    </div>
+    <div class="id-box active">
+      <div class="id-part">KA</div>
+      <div class="id-label">State Code (Karnataka)</div>
+    </div>
+    <div class="id-box active">
+      <div class="id-part">2026</div>
+      <div class="id-label">Admission Year</div>
+    </div>
+    <div class="id-box active">
+      <div class="id-part">001</div>
+      <div class="id-label">3-Digit Non-Occurring Serial</div>
+    </div>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Segment</th>
+          <th>Type / Length</th>
+          <th>Example</th>
+          <th>Specification Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Prefix</strong></td>
+          <td>2 Characters</td>
+          <td><code>EU</code></td>
+          <td><strong>Educational Universal</strong> namespace identifier.</td>
+        </tr>
+        <tr>
+          <td><strong>State Code</strong></td>
+          <td>2 Characters</td>
+          <td><code>KA</code></td>
+          <td>Official 2-letter uppercase ISO/postal state code (e.g. KA, MH, DL, TN).</td>
+        </tr>
+        <tr>
+          <td><strong>Year</strong></td>
+          <td>4 Digits</td>
+          <td><code>2026</code></td>
+          <td>Four-digit enrollment cohort year.</td>
+        </tr>
+        <tr>
+          <td><strong>Unique Serial</strong></td>
+          <td>3 Digits</td>
+          <td><code>001</code></td>
+          <td>Non-occurring 3-digit number (001–999) verified collision-free in MongoDB.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    <strong>Storage & Normalization:</strong> Database primary key uses the compact format <code>EUKA2026001</code>. The presentation format uses <code>EU-KA-2026-001</code>. The backend normalizer cleans all punctuation and case on login, resolving <code>euka2026001</code>, <code>EU-KA-2026-001</code>, and <code>EUKA2026001</code> identically.
+  </p>
+
+  <div class="page-break"></div>
+
+  <!-- SECTION 3: CODE SNIPPETS EXPLAINED -->
+  <h2>3. Core Code Implementations Explained</h2>
+
+  <h3>3.1. Collision-Free EduID Generator Engine</h3>
+  <p>
+    Located in <code>backend/utils/eduIdGenerator.js</code>, this function ensures zero sequence collisions by querying existing user records and selecting only from remaining unallocated slots.
+  </p>
+
+  <div class="code-block">
+    <div class="code-header">
+      <span>backend/utils/eduIdGenerator.js</span>
+      <span>JavaScript (Node.js)</span>
+    </div>
+<span class="keyword">export async function</span> <span class="fn">generateUniqueEduId</span>(state = <span class="str">'KA'</span>, year = <span class="num">2026</span>, randomize = <span class="keyword">true</span>) {
+  <span class="keyword">const</span> cleanState = state.trim().toUpperCase().slice(<span class="num">0</span>, <span class="num">2</span>);
+  <span class="keyword">const</span> cleanYear = Number(year) || <span class="num">2026</span>;
+
+  <span class="comment">// 1. Retrieve all issued sequence numbers for state + year</span>
+  <span class="keyword">const</span> existingUsers = <span class="keyword">await</span> User.find(
+    { state: cleanState, year: cleanYear },
+    { sequenceNumber: <span class="num">1</span> }
+  ).lean();
+
+  <span class="keyword">const</span> usedNumbers = <span class="keyword">new</span> Set(existingUsers.map(u => u.sequenceNumber));
+  <span class="keyword">const</span> availableNumbers = [];
+  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="num">1</span>; i &lt;= <span class="num">999</span>; i++) {
+    <span class="keyword">if</span> (!usedNumbers.has(i)) availableNumbers.push(i);
+  }
+
+  <span class="comment">// 2. Deterministic or randomized unallocated slot selection</span>
+  <span class="keyword">const</span> selected = randomize
+    ? availableNumbers[Math.floor(Math.random() * availableNumbers.length)]
+    : availableNumbers[<span class="num">0</span>];
+
+  <span class="keyword">const</span> padded = String(selected).padStart(<span class="num">3</span>, <span class="str">'0'</span>);
+  <span class="keyword">return</span> {
+    eduId: <span class="str">`EU<span class="str">${cleanState}</span><span class="str">${cleanYear}</span><span class="str">${padded}</span>`</span>,
+    formattedEduId: <span class="str">`EU-<span class="str">${cleanState}</span>-<span class="str">${cleanYear}</span>-<span class="str">${padded}</span>`</span>,
+    sequenceNumber: selected
+  };
+}
+  </div>
+
+  <h3>3.2. Secure Authentication & Credential Stripping</h3>
+  <p>
+    Located in <code>backend/routes/auth.js</code>, this endpoint verifies credentials via bcrypt. Passwords and internal database keys are completely removed before the response is dispatched.
+  </p>
+
+  <div class="code-block">
+    <div class="code-header">
+      <span>backend/routes/auth.js</span>
+      <span>Express.js Route</span>
+    </div>
+router.<span class="fn">post</span>(<span class="str">'/login'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">const</span> { eduId, password, role } = req.body;
+  <span class="keyword">const</span> compactInput = eduId.trim().replace(<span class="str">/[^a-zA-Z0-9]/g</span>, <span class="str">''</span>).toUpperCase();
+
+  <span class="comment">// Flexible lookup matching either compact or hyphenated format</span>
+  <span class="keyword">const</span> user = <span class="keyword">await</span> User.findOne({
+    $or: [{ eduId: compactInput }, { formattedEduId: eduId.trim() }]
+  });
+
+  <span class="keyword">if</span> (!user || !(<span class="keyword">await</span> bcrypt.compare(password, user.password))) {
+    <span class="keyword">return</span> res.status(<span class="num">401</span>).json({ success: <span class="keyword">false</span>, message: <span class="str">'Invalid credentials'</span> });
+  }
+
+  <span class="comment">// Respond with sanitized data (Password and DB keys NEVER sent to client)</span>
+  res.status(<span class="num">200</span>).json({
+    success: <span class="keyword">true</span>,
+    user: {
+      eduId: user.eduId,
+      formattedEduId: user.formattedEduId,
+      name: user.name,
+      role: user.role,
+      department: user.department,
+      institution: user.institution,
+      status: user.status
+    }
+  });
+});
+  </div>
+
+  <div class="page-break"></div>
+
+  <h3>3.3. Server-Side AI Chat Proxy</h3>
+  <p>
+    Located in <code>backend/routes/ai.js</code>, this endpoint acts as a secure reverse proxy for Jade AI, ensuring OpenRouter API tokens remain strictly on the server.
+  </p>
+
+  <div class="code-block">
+    <div class="code-header">
+      <span>backend/routes/ai.js</span>
+      <span>Express.js Proxy Route</span>
+    </div>
+router.<span class="fn">post</span>(<span class="str">'/chat'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">const</span> { messages } = req.body;
+  <span class="keyword">const</span> attempts = [
+    { key: process.env.GEMMA_API_KEY, model: <span class="str">'google/gemma-3-27b-it'</span> },
+    { key: process.env.NEMOTRON_API_KEY, model: <span class="str">'openrouter/auto'</span> }
+  ].filter(a => Boolean(a.key));
+
+  <span class="keyword">for</span> (<span class="keyword">const</span> attempt <span class="keyword">of</span> attempts) {
+    <span class="keyword">const</span> response = <span class="keyword">await</span> fetch(<span class="str">'https://openrouter.ai/api/v1/chat/completions'</span>, {
+      method: <span class="str">'POST'</span>,
+      headers: {
+        <span class="str">'Authorization'</span>: <span class="str">`Bearer <span class="str">${attempt.key}</span>`</span>,
+        <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span>
+      },
+      body: JSON.stringify({ model: attempt.model, messages, max_tokens: <span class="num">400</span> })
+    });
+
+    <span class="keyword">if</span> (response.ok) {
+      <span class="keyword">const</span> data = <span class="keyword">await</span> response.json();
+      <span class="keyword">return</span> res.status(<span class="num">200</span>).json({ success: <span class="keyword">true</span>, content: data.choices[<span class="num">0</span>].message.content });
+    }
+  }
+  res.status(<span class="num">502</span>).json({ error: <span class="str">'AI providers currently unavailable'</span> });
+});
+  </div>
+
+  <!-- SECTION 4: SECURITY MATRIX -->
+  <h2>4. Security & Protection Matrix</h2>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Threat / Attack Vector</th>
+          <th>Mitigation Mechanism Implemented</th>
+          <th>Target File</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Client API Key Extraction</strong></td>
+          <td>Removed keys from frontend; queries proxied via server endpoint.</td>
+          <td><code>src/components/AICareerAdvisor.jsx</code></td>
+        </tr>
+        <tr>
+          <td><strong>Database URI Git Leak</strong></td>
+          <td>Added strict ignore patterns for <code>.env</code> and <code>backend/.env</code> in <code>.gitignore</code>.</td>
+          <td><code>.gitignore</code></td>
+        </tr>
+        <tr>
+          <td><strong>Plaintext Password Vulnerability</strong></td>
+          <td>All passwords salted and hashed using <code>bcryptjs</code> (10 rounds).</td>
+          <td><code>backend/routes/auth.js</code></td>
+        </tr>
+        <tr>
+          <td><strong>Windows DNS SRV Connection Failure</strong></td>
+          <td>Configured Google DNS fallback (<code>8.8.8.8</code>) preventing SRV lookup failure.</td>
+          <td><code>backend/server.js</code></td>
+        </tr>
+        <tr>
+          <td><strong>GitHub Pages Asset 404s</strong></td>
+          <td>Configured relative base path (<code>base: './'</code>) for Vite build output.</td>
+          <td><code>vite.config.js</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTION 5: DEPLOYMENT GUIDE -->
+  <h2>5. Deployment & Execution Reference</h2>
+  <div class="badge-card">
+    <strong>Demo Credentials for Evaluation:</strong><br>
+    &bull; <strong>EduID:</strong> <code>EUKA2026001</code> (or <code>EU-KA-2026-001</code>)<br>
+    &bull; <strong>Password:</strong> <code>sample user</code>
+  </div>
+
+  <p><strong>Local Development:</strong> Run <code>start.bat</code> or run frontend (port 5173) and backend (port 5001) in separate shells.</p>
+  <p><strong>GitHub Pages Deployment:</strong> Run <code>npm run deploy</code> to compile and publish to the <code>gh-pages</code> branch.</p>
+
+  <div class="footer-note">
+    EduID Technical Documentation &bull; Generated Automatically &bull; &copy; 2026 EduID Platform
+  </div>
+
+</body>
+</html>
