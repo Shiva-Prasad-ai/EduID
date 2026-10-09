@@ -67,21 +67,52 @@ export default function LoginPage({ onLoginSuccess }) {
         })
       });
 
-      const data = await response.json();
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setPassword('');
+          if (onLoginSuccess) {
+            onLoginSuccess(data.user);
+          }
+          return;
+        } else {
+          setErrorMessage(data.message || 'Authentication failed. Please check your credentials.');
+          return;
+        }
+      }
 
-      if (response.ok && data.success) {
-        // Clear password from local memory
+      // If backend route returned non-200 (e.g. 404 on static GitHub Pages)
+      throw new Error(`Server returned HTTP ${response.status}`);
+    } catch (err) {
+      console.warn('Live backend unreachable, checking offline demo credentials:', err.message);
+
+      // Graceful Static / Demo Fallback (enables GitHub Pages preview)
+      const cleanInput = eduId.trim().replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+      const isDemoId = cleanInput === 'EUKA2026001' || cleanInput.includes('EUKA');
+      const isDemoPass = password === 'sample user' || password === 'sampleuser';
+
+      if (isDemoId && isDemoPass) {
         setPassword('');
         if (onLoginSuccess) {
-          onLoginSuccess(data.user);
+          onLoginSuccess({
+            eduId: 'EUKA2026001',
+            formattedEduId: 'EU-KA-2026-001',
+            name: selectedRole === 'Student' ? 'Ananya Raj' : `${selectedRole} Administrator`,
+            role: selectedRole,
+            department: 'BCA - 2nd Year',
+            institution: 'Bengaluru City University',
+            status: 'Verified',
+            attendance: '94%',
+            cgpa: '8.72',
+            dateOfBirth: '12 May 2005',
+            state: 'KA',
+            year: 2026
+          });
         }
-      } else {
-        setErrorMessage(data.message || 'Authentication failed. Please check your EduID and password.');
+        return;
       }
-    } catch (err) {
-      console.error('Login network error:', err);
-      // Fallback message if backend is unreachable
-      setErrorMessage('Unable to connect to authentication server. Please check backend server status.');
+
+      setErrorMessage('Backend is offline. For demo preview, please use EduID "EUKA2026001" and password "sample user".');
     } finally {
       setIsLoading(false);
     }
